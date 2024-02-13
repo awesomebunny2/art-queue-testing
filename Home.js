@@ -4795,13 +4795,27 @@ async function onTableChanged(eventArgs) {
         eventsOn(); //turns events back on
         console.log("Events: ON  →  turned on at the end of the onTableChanged Function!");
 
-        var theWorksheetTables = worksheetTables.getItemAt(0);
-        console.log("Attaching the onTableChanged to", theWorksheetTables)
-        activeChangeEvent = theWorksheetTables.onChanged.add(onTableChanged);
+        //if (changedWorksheet.name == "Unassigned Projects") {
 
-        var theCompletedTables = worksheetTables.getItemAt(1);
-        console.log("Attaching the onTableChanged to", theCompletedTables)
-        completedChangeEvent = theCompletedTables.onChanged.add(onTableChanged);
+        //    var theWorksheetTables = worksheetTables.getItemAt(0);
+        //    console.log("Attaching the onTableChanged to", theWorksheetTables)
+        //    activeChangeEvent = theWorksheetTables.onChanged.add(onTableChanged);
+
+        //} else {
+
+            var theWorksheetTables = worksheetTables.getItemAt(0);
+            console.log("Attaching the onTableChanged to", theWorksheetTables)
+            activeChangeEvent = theWorksheetTables.onChanged.add(onTableChanged);
+
+            var theCompletedTables = worksheetTables.getItemAt(1);
+            console.log("Attaching the onTableChanged to", theCompletedTables)
+            completedChangeEvent = theCompletedTables.onChanged.add(onTableChanged);
+
+      /*  };*/
+
+
+
+
 
     }).catch(err => { //error catcher
         if (dennisHere == true) { //if row was inserted illegally, do not return error
@@ -4952,13 +4966,24 @@ async function registerOnActivateHandler() {
             };
         };
 
-        var bonTable = worksheetTables.getItemAt(0);
-        console.log("Attaching the onTableChanged to", bonTable)
-        activeChangeEvent = bonTable.onChanged.add(onTableChanged);
+        var bonTable;
 
-        var completedBonTable = worksheetTables.getItemAt(1);
-        console.log("Attaching the onTableChanged to", completedBonTable)
-        completedChangeEvent = completedBonTable.onChanged.add(onTableChanged);
+        if (activeSheet.name == "Unassigned Projects") {
+            bonTable = worksheetTables.getItemAt(0);
+            console.log("Attaching the onTableChanged to", bonTable)
+            activeChangeEvent = bonTable.onChanged.add(onTableChanged);
+        } else {
+
+            bonTable = worksheetTables.getItemAt(0);
+            console.log("Attaching the onTableChanged to", bonTable)
+            activeChangeEvent = bonTable.onChanged.add(onTableChanged);
+
+            var completedBonTable = worksheetTables.getItemAt(1);
+            console.log("Attaching the onTableChanged to", completedBonTable)
+            completedChangeEvent = completedBonTable.onChanged.add(onTableChanged);
+
+        }
+
 
         for (var y = 0; y < worksheetTablesCount; y++) {
  
