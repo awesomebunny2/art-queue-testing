@@ -2737,11 +2737,17 @@ async function onTableSelectionChangedEvents(eventArgs) {
  */
 async function onTableChanged(eventArgs) {
 
-/*    enableEvents = false;*/
+    /*    enableEvents = false;*/
 
     console.log("On Table Change Fired");
 
-    await removeChangeEvent();
+    try {
+        await removeChangeEvent();
+        console.log("Successfully removed events!");
+    } catch (error) {
+        console.log("Broke while trying to remove events...see error below:");
+        console.log(error);
+    };
 
     //if (!eventArgs.details) {
     //    console.log("Returning since eventArg details are empty...");
@@ -4803,15 +4809,19 @@ async function onTableChanged(eventArgs) {
 
         //} else {
 
-            var theWorksheetTables = worksheetTables.getItemAt(0);
-            console.log("Attaching the onTableChanged to", theWorksheetTables)
-            activeChangeEvent = theWorksheetTables.onChanged.add(onTableChanged);
+        var theWorksheetTables = worksheetTables.getItemAt(0);
+        console.log("Attaching the onTableChanged to", theWorksheetTables)
+        activeChangeEvent = theWorksheetTables.onChanged.add(onTableChanged);
 
+        if (completedTable) {
             var theCompletedTables = worksheetTables.getItemAt(1);
             console.log("Attaching the onTableChanged to", theCompletedTables)
             completedChangeEvent = theCompletedTables.onChanged.add(onTableChanged);
+        };
 
-      /*  };*/
+    
+
+        /*  };*/
 
 
 
@@ -4986,7 +4996,7 @@ async function registerOnActivateHandler() {
 
 
         for (var y = 0; y < worksheetTablesCount; y++) {
- 
+
 
             selectionEvent = bonTable.onSelectionChanged.add(onTableSelectionChangedEvents);
 
@@ -5163,17 +5173,21 @@ async function removeChangeEvent() {
         await context.sync();
 
         activeChangeEvent = null;
-         console.log("Active Change Event was removed");
+        console.log("Active Change Event was removed");
     });
 
-    await Excel.run(completedChangeEvent.context, async (context) => {
-        completedChangeEvent.remove();
+    if (completedChangeEvent) {
 
-        await context.sync();
+        await Excel.run(completedChangeEvent.context, async (context) => {
+            completedChangeEvent.remove();
 
-        completedChangeEvent = null;
-        console.log("Completed Change Event was removed");
-    });
+            await context.sync();
+
+            completedChangeEvent = null;
+            console.log("Completed Change Event was removed");
+        });
+    };
+
 };
 
 //#endregion ---------------------------------------------------------------------------------------------------------------------------------
