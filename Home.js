@@ -183,17 +183,24 @@ var enableEvents;
 
 //#endregion -----------------------------------------------------------------------------------------------------------------------------------------
 
+// Regular comment
+//! Important!
+//? Question
+//* Highlighted
+//// Crossed Out
 
 //#region ON READY -----------------------------------------------------------------------------------------------------------------------------------
 
 Office.onReady(async (info) => {
 
-    console.log("BREAK");
+    //console.log("BREAK");
 
     //$(".cs-text").on("click", () => {
     //    console.log("cs-text jquery fired");
     //    showElement("#color-cheat-sheet", "show");
     //});
+
+    let eventStatus = await eventsFunction();
 
     Office.addin.setStartupBehavior(Office.StartupBehavior.load);
     let behavior = await Office.addin.getStartupBehavior()
@@ -207,6 +214,7 @@ Office.onReady(async (info) => {
     $('#auto-open').change(function () {
         if (this.checked == true) {
             //  console.log("Turning auto-open ON!")
+            //// ah don't use this one
             Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
             Office.context.document.settings.saveAsync();
             console.log("Auto-open is ON!")
@@ -253,13 +261,22 @@ Office.onReady(async (info) => {
             // };
 
 
-            enableEvents = context.runtime.load("enableEvents");
+            //context.runtime.load("enableEvents");
 
-            await context.sync();
+            //await context.sync();
+
+            //context.runtime.enableEvents = true;
+
+            //console.log("EVENTS ON");
+
+            if (eventStatus == "off") {
+                console.log("Events were off, but turning them back on now...")
+                await eventsOn();
+            };
 
 
 
-            activationEvent = registerOnActivateHandler();
+            //await registerOnActivateHandler();
 
             //#region LOADING VALUES -------------------------------------------------------------------------------------------------------------
 
@@ -688,10 +705,13 @@ Office.onReady(async (info) => {
                         $("#group").val(groupDateRefValues[2][6]);
                     };
 
-                    await addAProjectEvents().catch(err => {
-                        console.log(err);
-                        showMessage(err, "show");
-                    });
+                    await addAProject();
+                    //    .catch(err => {
+                    //    console.log(err);
+                    //    showMessage(err, "show");
+                    //});
+
+                    eventsOn();
                 };
             });
 
@@ -788,7 +808,7 @@ Office.onReady(async (info) => {
             });
 
             $(".gotcha").on("click", function () {
-                // showElement("#na-ah-ah", "hide");
+                 showElement("#na-ah-ah", "hide");
                 showElement("#auto-save-alert", "hide");
                 console.log("it should be hid now");
             });
@@ -837,6 +857,8 @@ Office.onReady(async (info) => {
             //#endregion -----------------------------------------------------------------------------------------------------------------------------------------
 
 
+            await registerOnActivateHandler();
+
 
             // console.log("The New Mover Group Data is: ");
             // console.log(newMoverGroupData);
@@ -848,10 +870,11 @@ Office.onReady(async (info) => {
         });
 
         // console.log(info);
-        tryCatch(updateDropDowns);
+        await tryCatch(updateDropDowns);
 
-        eventsOn();
-        console.log("Events: ON  →  turned on in onReady function!");
+        //* USED TO BE ON
+        //eventsOn();
+        //console.log("Events: ON  →  turned on in onReady function!");
         //updateDropDowns();
     };
 });
@@ -1823,19 +1846,19 @@ function normalPrintToGroupLink() {
 /**
  * Turns events off, then executes the addAProject function
  */
-async function addAProjectEvents() {
-    // throw("YOU MESSED UP");
-    await Excel.run(async (context) => {
-        context.runtime.load("enableEvents");
-        await context.sync().then(function () {
-            //turns events off
-            context.runtime.enableEvents = false;
-            console.log("Events: OFF - Occured in addAProjectEvents");
-        });
-    }).then(function () {
-        addAProject();
-    });
-};
+//async function addAProjectEvents() {
+//    // throw("YOU MESSED UP");
+//    await Excel.run(async (context) => {
+//        context.runtime.load("enableEvents");
+//        await context.sync().then(function () {
+//            //turns events off
+//            context.runtime.enableEvents = false;
+//            console.log("Events: OFF - Occured in addAProjectEvents");
+//        });
+//    }).then(function () {
+//        addAProject();
+//    });
+//};
 
 //#endregion ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -1851,6 +1874,8 @@ async function addAProject() {
     console.log("Add A Project was fired!");
 
     await Excel.run(async (context) => {
+
+        await eventsOff();
 
         //only performs auto save check if using desktop version of Excel
         if (isOnline == false) {
@@ -1872,7 +1897,9 @@ async function addAProject() {
                 //show alert box
                 showElement("#auto-save-alert", "show");
 
-                context.runtime.enableEvents = true; //turn events back on
+                //await eventsOn();
+
+                //context.runtime.enableEvents = true; //turn events back on
 
                 return;
             };
@@ -2460,10 +2487,16 @@ async function addAProject() {
 
         //#endregion ---------------------------------------------------------------------------------------------------------------------
 
-    });
+    }).catch(err => {
+        console.log(err);
+        //console.log(err.customMessage); // <--- does this log?
+        showMessage(err, "show");
 
-    eventsOn();
-    console.log("Events: ON  →  turned on in the addAProject function after a project was added to the sheet through the taskpane!");
+        eventsOn();
+    })
+
+    //eventsOn();
+    //console.log("Events: ON  →  turned on in the addAProject function after a project was added to the sheet through the taskpane!");
 
 };
 
@@ -2723,7 +2756,9 @@ async function onTableSelectionChangedEvents(eventArgs) {
         };
         console.log(err) // <--- does this log?
         showMessage(err, "show");
-        context.runtime.enableEvents = true;
+
+        //* USED TO BE ON
+    //    context.runtime.enableEvents = true;
     });
 };
 
@@ -2741,13 +2776,16 @@ async function onTableChanged(eventArgs) {
 
     console.log("On Table Change Fired");
 
-    try {
-        await removeChangeEvent();
-        console.log("Successfully removed events!");
-    } catch (error) {
-        console.log("Broke while trying to remove events...see error below:");
-        console.log(error);
-    };
+    //* USED TO BE ON
+    //try {
+    //    await removeChangeEvent();
+    //    console.log("Successfully removed events!");
+    //} catch (error) {
+    //    console.log("Broke while trying to remove events...see error below:");
+    //    console.log(error);
+    //};
+
+
 
     //if (!eventArgs.details) {
     //    console.log("Returning since eventArg details are empty...");
@@ -2756,9 +2794,14 @@ async function onTableChanged(eventArgs) {
 
     await Excel.run(async (context) => {
 
+
+        await eventsOff();
+
         var autoSave = context.workbook.load("autoSave");
 
         console.log(eventArgs);
+
+        await context.sync();
 
         //#region HANDLE REMOTE CHANGES ------------------------------------------------------------------------------------------------------
 
@@ -2782,13 +2825,6 @@ async function onTableChanged(eventArgs) {
 
         //#endregion -------------------------------------------------------------------------------------------------------------------------
 
-        context.runtime.load("enableEvents"); //loads runtime events so I can turn them off and on after the context.sync()
-
-        await context.sync();
-
-        //turns events off
-        context.runtime.enableEvents = false;
-        console.log("Events: OFF - Occured in onTableChanged!");
 
         if (isOnline == true) {
             console.log("isOnline is true!!!");
@@ -2823,7 +2859,10 @@ async function onTableChanged(eventArgs) {
                 console.log(details.valueBefore);
                 console.log(eventArgs.address);
 
-                context.runtime.enableEvents = true; //turn events back on
+                //* USED TO BE ON
+                //context.runtime.enableEvents = true; //turn events back on
+
+                throw "AutoSave was turned off, refreshing..."
 
                 return;
             };
@@ -3223,8 +3262,9 @@ async function onTableChanged(eventArgs) {
 
             };
 
-            eventsOn();
-            console.log("Events: ON  →  turned on after a row was deleted within the onTableChanged function!");
+            //* USED TO BE ON
+            //eventsOn();
+            //console.log("Events: ON  →  turned on after a row was deleted within the onTableChanged function!");
 
             return;
 
@@ -3259,7 +3299,7 @@ async function onTableChanged(eventArgs) {
 
                 var hyperlink = cellProperties.value[0][0];
 
-                console.log(hyperlink.hyperlink);
+                //console.log(hyperlink.hyperlink);
 
                 if (hyperlink.hyperlink || formula.startsWith("=HYPERLINK")) {
                     leCell.clear(Excel.ClearApplyTo.hyperlinks);
@@ -3287,7 +3327,7 @@ async function onTableChanged(eventArgs) {
 
                 var hyperlink = cellProperties.value[0][0];
 
-                console.log(hyperlink.hyperlink);
+                //console.log(hyperlink.hyperlink);
 
                 if (hyperlink.hyperlink || formula.startsWith("=HYPERLINK")) {
                     leCell.clear(Excel.ClearApplyTo.hyperlinks);
@@ -3641,7 +3681,7 @@ async function onTableChanged(eventArgs) {
 
                 var hyperlink = cellProperties.value[0][0];
 
-                console.log(hyperlink.hyperlink);
+                //console.log(hyperlink.hyperlink);
 
                 if (hyperlink.hyperlink || formula.startsWith("=HYPERLINK")) {
                     leCell.clear(Excel.ClearApplyTo.hyperlinks);
@@ -3669,7 +3709,7 @@ async function onTableChanged(eventArgs) {
 
                 var hyperlink = cellProperties.value[0][0];
 
-                console.log(hyperlink.hyperlink);
+                //console.log(hyperlink.hyperlink);
 
                 if (hyperlink.hyperlink || formula.startsWith("=HYPERLINK")) {
                     leCell.clear(Excel.ClearApplyTo.hyperlinks);
@@ -3719,7 +3759,7 @@ async function onTableChanged(eventArgs) {
                 var nmOrNo = true;
 
                 if ($("#nm-print-date").val() == "" || $("#nm-print-date").val() == null) {
-                    newMoverGroupPrintVariation(rowInfo.product.value, nmOrNo);
+                    await newMoverGroupPrintVariation(rowInfo.product.value, nmOrNo);
                 };
 
             };
@@ -3752,7 +3792,7 @@ async function onTableChanged(eventArgs) {
                 var nmOrNo = false;
 
                 if ($("#normal-print-date").val() == "" || $("#normal-print-date").val() == null) {
-                    newMoverGroupPrintVariation(rowInfo.product.value, nmOrNo);
+                    await newMoverGroupPrintVariation(rowInfo.product.value, nmOrNo);
                 };
 
             };
@@ -3818,8 +3858,9 @@ async function onTableChanged(eventArgs) {
 
                 };
 
-                eventsOn();
-                console.log("Events: ON  →  turned on after a row was deleted within the onTableChanged function!");
+                /** USED TO BE ON*/
+                //eventsOn();
+                //console.log("Events: ON  →  turned on after a row was deleted within the onTableChanged function!");
 
                 return;
 
@@ -4798,8 +4839,9 @@ async function onTableChanged(eventArgs) {
         previousInfo.changedWorksheet = eventArgs.worksheetId;
         previousInfo.address = eventArgs.address;
 
-        eventsOn(); //turns events back on
-        console.log("Events: ON  →  turned on at the end of the onTableChanged Function!");
+        //* USED TO BE ON
+        //eventsOn(); //turns events back on
+        //console.log("Events: ON  →  turned on at the end of the onTableChanged Function!");
 
         //if (changedWorksheet.name == "Unassigned Projects") {
 
@@ -4809,19 +4851,22 @@ async function onTableChanged(eventArgs) {
 
         //} else {
 
-        var theWorksheetTables = worksheetTables.getItemAt(0);
-        console.log("Attaching the onTableChanged to", theWorksheetTables)
-        activeChangeEvent = theWorksheetTables.onChanged.add(onTableChanged);
+        //* USED TO BE ON
+        //var theWorksheetTables = worksheetTables.getItemAt(0);
+        //console.log("Attaching the onTableChanged to", theWorksheetTables)
+        //activeChangeEvent = theWorksheetTables.onChanged.add(onTableChanged);
 
-        if (completedTable) {
-            var theCompletedTables = worksheetTables.getItemAt(1);
-            console.log("Attaching the onTableChanged to", theCompletedTables)
-            completedChangeEvent = theCompletedTables.onChanged.add(onTableChanged);
-        };
+        //if (completedTable) {
+        //    var theCompletedTables = worksheetTables.getItemAt(1);
+        //    console.log("Attaching the onTableChanged to", theCompletedTables)
+        //    completedChangeEvent = theCompletedTables.onChanged.add(onTableChanged);
+        //};
 
-    
+
 
         /*  };*/
+
+        await eventsOn();
 
 
 
@@ -4829,11 +4874,25 @@ async function onTableChanged(eventArgs) {
 
     }).catch(err => { //error catcher
         if (dennisHere == true) { //if row was inserted illegally, do not return error
+            eventsOn();
             return;
         };
-        console.log(err) // <--- does this log?
+
+        if (err == "AutoSave was turned off, refreshing...") {
+            console.log(err);
+            err = null;
+            eventsOn();
+            return;
+        };
+
+        console.log(err);
+        //console.log(err.customMessage); // <--- does this log?
         showMessage(err, "show");
-        context.runtime.enableEvents = true;
+
+        eventsOn();
+
+        //* USED TO BE ON
+    //    context.runtime.enableEvents = true;
     });
 
 };
@@ -4855,21 +4914,12 @@ async function onTableChanged(eventArgs) {
 async function registerOnActivateHandler() {
     await Excel.run(async (context) => {
 
-        // console.log("Inital load Selection Event: ");
-        // console.log(selectionEvent);
-        // removeSelectionEvent();
-
-        // console.log("Reload activation function fired!");
         let sheets = context.workbook.worksheets;
         var activeSheet = context.workbook.worksheets.getActiveWorksheet().load("worksheetId");
         activeSheet.load("name");
-
-        //context.runtime.load("enableEvents");
-
         var theAllTable = context.workbook.tables.load("count"); //all of the tables in the workbook
         theAllTable.load("items");
-
-        var worksheetTables = activeSheet.tables.load("items/count");
+        var worksheetTables = activeSheet.tables.load("items/count"); //only the active sheet's tables
 
 
         await context.sync();
@@ -4881,14 +4931,18 @@ async function registerOnActivateHandler() {
 
         // console.log(activeSheetName);
 
-        if (activeSheet.name == "Validation") {
-            console.log("Active sheet is the Validation sheet, so onSelection & onChange events have been bound");
-            sheets.onActivated.add(onActivate);
-            sheets.onDeactivated.add(onDeactivate);
-            eventsOn();
-            console.log("Events: ON  →  turned on in the registerOnActivateHandler function, but for the Validation sheet");
-            return;
-        };
+        //if (activeSheet.name == "Validation") {
+        //    console.log("Active sheet is the Validation sheet, so onSelection & onChange events have been bound");
+
+        //    sheets.onActivated.add(onActivate);
+        //    sheets.onDeactivated.add(onDeactivate);
+
+        //    //* USED TO BE ON
+        //    //await eventsOn();
+
+        //    //console.log("Events: ON  →  turned on in the registerOnActivateHandler function, but for the Validation sheet");
+        //    return;
+        //};
 
         var worksheetTablesCount = worksheetTables.count; //the number of tables in the workbook
 
@@ -5004,18 +5058,22 @@ async function registerOnActivateHandler() {
 
         console.log("All onTableChanged's have been attached");
 
+        //? If code is still broken, dig deep into what is going on here. Seems redundant, but slightly different enough that I fear to remove it. 
+        //? Need to dig deeper into this if the problem isn't solved later
         sheets.onActivated.add(onActivate);
         sheets.onDeactivated.add(onDeactivate);
 
         // console.log("A handler has been registered for the OnActivate event.");
 
-        eventsOn();
-        console.log("Events: ON  →  turned on in the registerOnActivateHandler function, typically triggered by a reload");
+        //* USED TO BE ON
+        //eventsOn();
+        //console.log("Events: ON  →  turned on in the registerOnActivateHandler function, typically triggered by a reload");
 
     }).catch(err => {
         console.log(err) // <--- does this log?
         showMessage(err, "show");
-        context.runtime.enableEvents = true;
+        //* USED TO BE ON
+    //    context.runtime.enableEvents = true;
     });
 };
 
@@ -5148,23 +5206,24 @@ async function onActivate(eventArgs) {
     }).catch(err => {
         console.log(err) // <--- does this log?
         showMessage(err, "show");
-        context.runtime.enableEvents = true;
+        //* USED TO BE ON
+    //    context.runtime.enableEvents = true;
     });
 };
 
 
-async function removeSelectionEvent() {
-    await Excel.run(selectionEvent.context, async (context) => {
+//async function removeSelectionEvent() {
+//    await Excel.run(selectionEvent.context, async (context) => {
 
-        //var worksheetOld = selectionEvent.context.workbook.worksheets.getItem()
-        selectionEvent.remove();
+//        //var worksheetOld = selectionEvent.context.workbook.worksheets.getItem()
+//        selectionEvent.remove();
 
-        await context.sync();
+//        await context.sync();
 
-        selectionEvent = null;
-        // console.log("Selection Event was removed");
-    });
-};
+//        selectionEvent = null;
+//        // console.log("Selection Event was removed");
+//    });
+//};
 
 async function removeChangeEvent() {
     await Excel.run(activeChangeEvent.context, async (context) => {
@@ -6977,7 +7036,18 @@ async function eventsOn() {
         context.runtime.load("enableEvents");
         await context.sync();
         context.runtime.enableEvents = true;
-        //console.log("Events are turned on!");
+        await context.sync();
+        console.log("EVENTS ON");
+    });
+};
+
+async function eventsOff() {
+    await Excel.run(async (context) => {
+        context.runtime.load("enableEvents");
+        await context.sync();
+        context.runtime.enableEvents = false;
+        await context.sync();
+        console.log("EVENTS OFF");
     });
 };
 
@@ -6990,35 +7060,40 @@ async function eventsOn() {
  */
 async function eventsFunction() {
 
+    let eventsEnabled;
+
     await Excel.run(async (context) => {
         context.runtime.load("enableEvents");
         await context.sync();
         if (context.runtime.enableEvents == true) {
-            var eventsEnabled = "on";
+            eventsEnabled = "on";
         } else {
-            var eventsEnabled = "off";
+            eventsEnabled = "off";
         };
         console.log("Events are turned " + eventsEnabled);
     });
+
+    return eventsEnabled;
+
 };
 
 //#endregion ---------------------------------------------------------------------------------------------------------------------------------
 
 //#region HANDLE CHANGE EVENT FOR DEBUGGING --------------------------------------------------------------------------------------------------
 
-async function handleChange(event) {
-    await Excel.run(async (context) => {
-        await context.sync();
-        console.log("Address of event: " + event.address);
-        // console.log("The change direction state of the event: " + event.changeDirectionState);
-        console.log("Change type of event: " + event.changeType);
-        console.log("The details of the event: " + event.details);
-        // console.log("Source of event: " + event.source);
-        // console.log("The trigger source of the event: " + event.triggerSource);
-        // console.log("The worrksheet ID of the event: " + event.worksheetId);
-        console.log("END OF ENTRY////////////////////////////////////////////////////////////////////////////////////");
-    }).catch(errorHandlerFunction);
-}
+//async function handleChange(event) {
+//    await Excel.run(async (context) => {
+//        await context.sync();
+//        console.log("Address of event: " + event.address);
+//        // console.log("The change direction state of the event: " + event.changeDirectionState);
+//        console.log("Change type of event: " + event.changeType);
+//        console.log("The details of the event: " + event.details);
+//        // console.log("Source of event: " + event.source);
+//        // console.log("The trigger source of the event: " + event.triggerSource);
+//        // console.log("The worrksheet ID of the event: " + event.worksheetId);
+//        console.log("END OF ENTRY////////////////////////////////////////////////////////////////////////////////////");
+//    }).catch(errorHandlerFunction);
+//}
 
 //#endregion ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -7056,15 +7131,14 @@ function hideFisshGif() {
 
 // Illegal insert dennis gif
 function showDennis() {
-    onR
     $("#dennis").css("display", "flex");
     console.log("Na-Ah-Ah!");
     var naAhAh = new Audio("./Images/dennis-mock.mp3");
     naAhAh.play();
 
     $("#dennis").append(`
-            <img id="dennis-gif" src="./Images/dennis-crop.gif" />
-        `);
+        <img id="dennis-gif" src="./Images/dennis-crop.gif" />
+    `);
 
     // Wait 1.5 seconds, hide Dennis
     setTimeout(() => {
@@ -7172,13 +7246,18 @@ async function handleIllegalInsert(eventArgs) {
 
         rowRange.delete("Up");
 
-        eventsOn();
-        console.log(`Events: ON  →  triggered after a row was manually inserted into the sheet by the user, 
-                followed by the swift removal of said row and a slap on the wrist.`);
+        //* USED TO BE ON
+        //eventsOn();
+        //console.log(`Events: ON  →  triggered after a row was manually inserted into the sheet by the user,
+        //        followed by the swift removal of said row and a slap on the wrist.`);
+        //return;
 
-        return;
+        //eventsOn();
 
-    });
+    }).catch(err => {
+        err.customMessage = "Something went wrong in the handleIllegalInsert function:";
+        throw Err;
+    })
 
 };
 
@@ -7426,8 +7505,9 @@ async function writeAndRedo(newPrintDate, newGroup) {
         // showElement("#product-group-update", "hide");
         //location.reload();
 
-        eventsOn();
-        console.log("Events: ON  →  turned on after a row was deleted within the onTableChanged function!");
+        //* USED TO BE ON
+        //eventsOn();
+        //console.log("Events: ON  →  turned on after a row was deleted within the onTableChanged function!");
 
         return;
 
