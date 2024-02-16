@@ -791,27 +791,63 @@ Office.onReady(async (info) => {
                 showElement("#fissh", "show");
             })
 
-            $('#auto-open').on("click", async function () {
+            $('#check-password').on("click", async function () {
 
-                Office.addin.setStartupBehavior(Office.StartupBehavior.none);
+                let pass = $("#pass").val();
 
-                let behavior = await Office.addin.getStartupBehavior();
-                console.log("BEHAVIOR", behavior);
+                if (pass == "fissh") {
+                    console.log("Success!");
 
-                console.log("I have be CLICKEDDDDD");
-                //if (this.checked == true) {
-                //    //  console.log("Turning auto-open ON!")
-                //    //// ah don't use this one
-                //    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-                //    Office.context.document.settings.saveAsync();
-                //    console.log("Auto-open is ON!")
-                //} else {
-                //    //  console.log("Turning auto-open OFF!")
-                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", false);
-                Office.context.document.settings.saveAsync();
-                console.log("Auto-open is OFF!")
+                    $("#pass").val("");
+
+                    $("#footer-text").css("display", "none");
+
+
+                    Office.addin.setStartupBehavior(Office.StartupBehavior.none);
+
+                    let behavior = await Office.addin.getStartupBehavior();
+                    console.log("BEHAVIOR", behavior);
+
+                    console.log("I have be CLICKEDDDDD");
+                    //if (this.checked == true) {
+                    //    //  console.log("Turning auto-open ON!")
+                    //    //// ah don't use this one
+                    //    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                    //    Office.context.document.settings.saveAsync();
+                    //    console.log("Auto-open is ON!")
+                    //} else {
+                    //    //  console.log("Turning auto-open OFF!")
+                    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", false);
+                    Office.context.document.settings.saveAsync();
+                    console.log("Auto-open is OFF!")
+
+                    showElement("#auto-open-unbind", "hide");
+
+                    $("#unbound-alert-text").empty();
+                    $("#unbound-alert-text").append("The add-in has successfully been unbound from this workbook");
+
+                    showElement("#unbound-auto-open-alert", "show");
+
+                } else {
+                    console.log("You Failed...");
+
+                    $("#pass").val("");
+
+                    $("#footer-text").css("display", "flex");
+
+                };
+
+                
                 //};
             });
+
+            $("#auto-open").on("click", () => {
+                showElement("#auto-open-unbind", "show")
+            });
+
+            $("#cancel").on("click", function () {
+                showElement("#auto-open-unbind", "hide");
+            })
 
             $(".ok").on("click", function () {
                 showElement("#fissh", "hide");
@@ -819,12 +855,18 @@ Office.onReady(async (info) => {
                 //location.reload();
             });
 
-            $(".dont").on("click", function () {
+            $("#dont").on("click", function () {
                 showElement("#fissh", "hide");
             });
 
-            $("#close-xp").on("click", function () {
+            $("#close-xp-fissh").on("click", function () {
                 showElement("#fissh", "hide");
+            });
+
+            $("#close-xp-auto-open-unbind").on("click", function () {
+                showElement("#auto-open-unbind", "hide");
+                $("#pass").val("");
+                $("#footer-text").css("display", "none");
             });
 
             $("#reload").on("click", function () {
@@ -835,8 +877,9 @@ Office.onReady(async (info) => {
             });
 
             $(".gotcha").on("click", function () {
-                 showElement("#na-ah-ah", "hide");
+                showElement("#na-ah-ah", "hide");
                 showElement("#auto-save-alert", "hide");
+                showElement("#unbound-auto-open-alert", "hide")
                 console.log("it should be hid now");
             });
 
@@ -1918,8 +1961,8 @@ async function addAProject() {
                 console.log("AutoSave is currently turned off. Please turn it on before making changes to the table.");
 
                 //customize alert text for onTableChanged version of alert
-                $("#alert-text").empty();
-                $("#alert-text").append("Please turn on AutoSave before submitting a project to the spreadsheet. Project was not added to the table.");
+                $("#auto-save-alert-text").empty();
+                $("#auto-save-alert-text").append("Please turn on AutoSave before submitting a project to the spreadsheet. Project was not added to the table.");
 
                 //show alert box
                 showElement("#auto-save-alert", "show");
@@ -2867,8 +2910,8 @@ async function onTableChanged(eventArgs) {
                 console.log("AutoSave is currently turned off. Please turn it on before making changes to the table.");
 
                 //customize alert text for onTableChanged version of alert
-                $("#alert-text").empty();
-                $("#alert-text").append("Please turn on AutoSave before making any updates to the spreadsheet. Change has been reverted back to previous value.");
+                $("#auto-save-alert-text").empty();
+                $("#auto-save-alert-text").append("Please turn on AutoSave before making any updates to the spreadsheet. Change has been reverted back to previous value.");
 
                 //show alert box
                 showElement("#auto-save-alert", "show");

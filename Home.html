@@ -49,11 +49,11 @@
         </div>
     </div>
 
-    <div id="fissh">
-        <div id="warning-fissh">
-            <div id="warning-title-bar">
-                <h2 id="warning-text">WARNING</h2>
-                <div id="close-xp" aria-label="Close">
+    <div id="fissh" class="windows-xp-box">
+        <div id="warning-fissh" class="windows-xp-warning-area">
+            <div id="warning-title-bar" class="windows-xp-title-bar">
+                <h2 id="warning-text" class="windows-xp-title-text">WARNING</h2>
+                <div id="close-xp-fissh" class="close-xp" aria-label="Close">
                     <!--<img id="close-xp-image" src="./Images/close.svg" />-->
                 </div>
                 <!--<button id="close-xp" aria-label="Close" src="./Images/close.svg"></button>-->
@@ -61,12 +61,12 @@
                   <button id="close-xp" aria-label="Close" src="./Images/close.svg"></button>
                 </div> -->
             </div>
-            <p id="fissh-text">fissh</p>
+            <p id="fissh-text" class="windows-xp-text">fissh</p>
             <img id="fissh-img" src="./Images/fissh.png" alt="fissh">
-            <div id="fissh-buttons">
+            <div id="fissh-buttons" class="windows-xp-buttons">
                 <button id="fiish-butt" class="ok">ok</button>
-                <button id="fiish-butt" class="ok">ok</button>
-                <button id="fiish-butt" class="dont">dont</button>
+                <button id="ok" class="ok">ok</button>
+                <button id="dont" class="dont">dont</button>
             </div>
         </div>
     </div>
@@ -75,8 +75,59 @@
         <img id="intense-fissh-gif" src="./Images/intense-fissh.gif" alt="*fissh intensifies*">
     </div>
 
+
+    <div id="auto-open-unbind" class="windows-xp-box">
+        <div id="auto-open-unbind-warning" class="windows-xp-warning-area">
+            <div id="auto-open-unbind-warning-title-bar" class="windows-xp-title-bar">
+                <h2 id="auto-open-unbind-warning-text" class="windows-xp-title-text">Unbind Auto Open?</h2>
+                <div id="close-xp-auto-open-unbind" class="close-xp" aria-label="Close">
+                    <!--<img id="close-xp-image" src="./Images/close.svg" />-->
+                </div>
+                <!--<button id="close-xp" aria-label="Close" src="./Images/close.svg"></button>-->
+                <!-- <div class="title-bar-controls">
+                  <button id="close-xp" aria-label="Close" src="./Images/close.svg"></button>
+                </div> -->
+            </div>
+            <p id="auto-open-unbind-text" class="windows-xp-text" style="font-size: 15px">Please enter the password if you wish to turn off auto-opening for this add-in on this workbook</p>
+            <div id="password-area" class="windows-xp-buttons">
+                <input type="password" id="pass" />
+                <button id="check-password" class="ok-password">Submit</button>
+            </div>
+
+            <div id="footer-text">
+                <p id="failed-text">*Incorrect password</p>
+            </div>
+
+            <!--<img id="fissh-img" src="./Images/fissh.png" alt="fissh">-->
+            <!--<div id="auto-open-unbind-buttons" class="windows-xp-buttons">
+                <button id="cancel" class="dont">Cancel</button>-->
+            <!--<button id="fiish-butt" class="ok">ok</button>
+            <button id="fiish-butt" class="dont">dont</button>-->
+            <!--</div>-->
+        </div>
+    </div>
+    </div>
+    <!--<div id="fissh-gif">
+        <img id="intense-fissh-gif" src="./Images/intense-fissh.gif" alt="*fissh intensifies*">
+    </div>-->
+
+    <div id="unbound-auto-open-alert" class="simple-alert">
+        <div class="alert-box">
+            <header>
+                <h2>
+                    <span>AUTO OPEN UNBOUND</span>
+                </h2>
+            </header>
+            <p id="unbound-alert-text" class="alert-text"></p>
+            <div class="alert-buttons">
+                <button class="gotcha">OK</button>
+            </div>
+        </div>
+    </div>
+
     <div id="dennis">
     </div>
+
     <div id="na-ah-ah">
         <div id="na-ah-ah-box">
             <header>
@@ -92,15 +143,15 @@
     </div>
 
 
-    <div id="auto-save-alert">
-        <div id="alert-box">
+    <div id="auto-save-alert" class="simple-alert">
+        <div class="alert-box">
             <header>
                 <h2>
                     <span>AUTO SAVE ALERT!</span>
                 </h2>
             </header>
-            <p id="alert-text"></p>
-            <div id="alert-buttons">
+            <p id="auto-save-alert-text" class="alert-text"></p>
+            <div class="alert-buttons">
                 <button class="gotcha">OK</button>
             </div>
         </div>
@@ -563,12 +614,15 @@
 
             </div>
 
-            <button id="meece">🐭🐁🐭🐁🐭🐁🐭🐁🐭🐁      🖱</button>
+            <div id="easter-eggs">
+                <button id="meece">🐭🐁🐭🐁🐭🐁🐭🐁🐭🐁      🖱</button>
+                <button id="auto-open">Auto Open??</button>
+            </div>
+
 
             <!--<label id="auto-open-label" for="auto-open">Auto Open??</label>
             <input type="checkbox" id="auto-open"/>-->
 
-            <button id="auto-open">Auto Open??</button>
 
         </div>
 
