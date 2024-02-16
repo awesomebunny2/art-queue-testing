@@ -3266,6 +3266,8 @@ async function onTableChanged(eventArgs) {
             //eventsOn();
             //console.log("Events: ON  →  turned on after a row was deleted within the onTableChanged function!");
 
+            throw "Row was deleted, exiting function...";
+
             return;
 
         };
@@ -3857,6 +3859,8 @@ async function onTableChanged(eventArgs) {
                     // console.log("Conditional formatting was applied to row " + m);
 
                 };
+
+                throw "Logo Recreation Removed..."
 
                 /** USED TO BE ON*/
                 //eventsOn();
@@ -4878,7 +4882,7 @@ async function onTableChanged(eventArgs) {
             return;
         };
 
-        if (err == "AutoSave was turned off, refreshing...") {
+        if (err == "AutoSave was turned off, refreshing..." || err == "Row was deleted, exiting function..." || err == "Logo Recreation Removed...") {
             console.log(err);
             err = null;
             eventsOn();
