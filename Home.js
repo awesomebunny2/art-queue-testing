@@ -202,29 +202,32 @@ Office.onReady(async (info) => {
 
     let eventStatus = await eventsFunction();
 
-    Office.addin.setStartupBehavior(Office.StartupBehavior.load);
+    //Office.addin.setStartupBehavior(Office.StartupBehavior.load);
     let behavior = await Office.addin.getStartupBehavior()
     console.log("BEHAVIOR", behavior)
-    if (behavior === "Load") {
-        $("#auto-open").prop("checked", true)
-    } else {
-        $("#auto-open").prop("checked", false)
-    }
+    //if (behavior === "Load") {
+    //    $("#auto-open").prop("checked", true);
+    //    console.log("Checking true");
+    //} else {
+    //    $("#auto-open").prop("checked", false);
+    //    console.log("Checking false");
+    //}
 
-    $('#auto-open').change(function () {
-        if (this.checked == true) {
-            //  console.log("Turning auto-open ON!")
-            //// ah don't use this one
-            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
-            Office.context.document.settings.saveAsync();
-            console.log("Auto-open is ON!")
-        } else {
-            //  console.log("Turning auto-open OFF!")
-            Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", false);
-            Office.context.document.settings.saveAsync();
-            console.log("Auto-open is OFF!")
-        };
-    });
+    //$('#auto-open').on("click", function () {
+    //    console.log("I have be CLICKEDDDDD");
+    //    //if (this.checked == true) {
+    //    //    //  console.log("Turning auto-open ON!")
+    //    //    //// ah don't use this one
+    //    //    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+    //    //    Office.context.document.settings.saveAsync();
+    //    //    console.log("Auto-open is ON!")
+    //    //} else {
+    //    //    //  console.log("Turning auto-open OFF!")
+    //        Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", false);
+    //        Office.context.document.settings.saveAsync();
+    //        console.log("Auto-open is OFF!")
+    //    //};
+    //});
 
     console.log("⚠️ INFO HOST AND PLATFORM TYPE:")
     console.log(info)
@@ -245,6 +248,8 @@ Office.onReady(async (info) => {
 
 
         Excel.run(async (context) => {
+
+
 
             // var autoSave = context.workbook.load("autoSave");
 
@@ -785,6 +790,28 @@ Office.onReady(async (info) => {
                 console.log("CLICKED🐭");
                 showElement("#fissh", "show");
             })
+
+            $('#auto-open').on("click", async function () {
+
+                Office.addin.setStartupBehavior(Office.StartupBehavior.none);
+
+                let behavior = await Office.addin.getStartupBehavior();
+                console.log("BEHAVIOR", behavior);
+
+                console.log("I have be CLICKEDDDDD");
+                //if (this.checked == true) {
+                //    //  console.log("Turning auto-open ON!")
+                //    //// ah don't use this one
+                //    Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", true);
+                //    Office.context.document.settings.saveAsync();
+                //    console.log("Auto-open is ON!")
+                //} else {
+                //    //  console.log("Turning auto-open OFF!")
+                Office.context.document.settings.set("Office.AutoShowTaskpaneWithDocument", false);
+                Office.context.document.settings.saveAsync();
+                console.log("Auto-open is OFF!")
+                //};
+            });
 
             $(".ok").on("click", function () {
                 showElement("#fissh", "hide");
