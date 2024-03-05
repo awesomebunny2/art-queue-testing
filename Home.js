@@ -1482,6 +1482,8 @@ async function newMoverGroupPrint() {
 
         await context.sync();
 
+        console.log("Update please");
+
         var groupDateRefValues = groupDateRefRange.values;
 
         var product = $("#product").val();
@@ -1491,7 +1493,7 @@ async function newMoverGroupPrint() {
         $("#group").empty();
         $("#group").append($("<option disabled selected hidden></option>").val("").text(""));
 
-        if (product == "New Mover" || product == "Plastic New Mover" || product == "Birthday Postcard") {
+        if (product == "New Mover" || product == "Plastic New Mover" || product == "Birthday Postcard" || product == "New Homeowner Postcard") {
             console.log("The product is a new mover, so new group and print dates need to be populated in the dropdowns");
 
             //newMoverData && newMoverGroupData
@@ -1615,7 +1617,7 @@ async function newMoverGroupPrintVariation(product, nmOrNo) {
         $(groupInput).empty();
         $(groupInput).append($("<option disabled selected hidden></option>").val("").text(""));
 
-        if (product == "New Mover" || product == "Plastic New Mover" || product == "Birthday Postcard") {
+        if (product == "New Mover" || product == "Plastic New Mover" || product == "Birthday Postcard" || product == "New Homeowner Postcard") {
             console.log("The product is a new mover, so new group and print dates need to be populated in the dropdowns");
 
             //newMoverData && newMoverGroupData
@@ -1724,7 +1726,7 @@ function groupToPrintLink() {
 
         try {
 
-            if (product == "New Mover" || product == "Plastic New Mover" || product == "Birthday Postcard") {
+            if (product == "New Mover" || product == "Plastic New Mover" || product == "Birthday Postcard" || product == "New Homeowner Postcard") {
                 var printDateMatch = newMoverGroupData[theGroup].currentNewMoverPrint;
             } else {
                 var printDateMatch = groupRefData[theGroup].currentPrintDate;
@@ -1830,7 +1832,7 @@ function printToGroupLink() {
         var thePrintDate = lePrintDate.trim();
 
         try {
-            if (product == "New Mover" || product == "Plastic New Mover" || product == "Birthday Postcard") {
+            if (product == "New Mover" || product == "Plastic New Mover" || product == "Birthday Postcard" || product == "New Homeowner Postcard") {
                 var groupMatch = newMoverData[thePrintDate].currentNewMoverGroup;
             } else {
                 var groupMatch = printDateRefData[thePrintDate].currentGroup;
@@ -2723,7 +2725,7 @@ async function onTableSelectionChangedEvents(eventArgs) {
                         var groupUppercase = rowInfoSorted.group.value.toUpperCase();
 
                         if (rowInfoSorted.product.value == "New Mover" || rowInfoSorted.product.value == "Plastic New Mover"
-                            || rowInfoSorted.product.value == "Birthday Postcard"
+                            || rowInfoSorted.product.value == "Birthday Postcard" || rowInfoSorted.product.value == "New Homeowner Postcard"
                             || (rowInfoSorted.product.value == "Logo Recreation" && isNMGroup == true)) {
                             var matchPrintDate = newMoverGroupData[groupUppercase].currentNewMoverPrint;
                         } else {
@@ -2879,6 +2881,7 @@ async function onTableChanged(eventArgs) {
 
         if (eventArgs.source == "Remote") {
             console.log("Content was changed by a remote user, exiting onTableChanged Event");
+            eventsOn();
             return;
         };
 
@@ -3420,6 +3423,7 @@ async function onTableChanged(eventArgs) {
                 && (rowInfo.product.value == "New Mover"
                     || rowInfo.product.value == "Plastic New Mover"
                     || rowInfo.product.value == "Birthday Postcard"
+                    || rowInfoSorted.product.value == "New Homeowner Postcard"
                     || (rowInfo.product.value == "Logo Recreation" && isNMGroupToo == true))) { //update group letter to New Mover 
                 //variation if print date is changed
 
@@ -3449,6 +3453,7 @@ async function onTableChanged(eventArgs) {
                 && (rowInfo.product.value == "New Mover"
                     || rowInfo.product.value == "Plastic New Mover"
                     || rowInfo.product.value == "Birthday Postcard"
+                    || rowInfoSorted.product.value == "New Homeowner Postcard"
                     || (rowInfo.product.value == "Logo Recreation" && isNMGroupToo == true))) { //update print date to New Mover 
                 //variation if group letter is changed
 
@@ -3806,6 +3811,7 @@ async function onTableChanged(eventArgs) {
                 "New Mover",
                 "Plastic New Mover",
                 "Birthday Postcard",
+                "New Homeowner Postcard",
                 "Logo Recreation",
             ]
 
@@ -6423,7 +6429,8 @@ function conditionalFormatting(rowInfoSorted, newTableStart, changedWorksheet,
     const specialProducts = [
         "New Mover",
         "Plastic New Mover",
-        "Birthday Postcard"
+        "Birthday Postcard",
+        "New Homeowner Postcard"
         // "Logo Recreation",
     ];
 
