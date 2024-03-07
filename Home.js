@@ -3423,7 +3423,7 @@ async function onTableChanged(eventArgs) {
                 && (rowInfo.product.value == "New Mover"
                     || rowInfo.product.value == "Plastic New Mover"
                     || rowInfo.product.value == "Birthday Postcard"
-                    || rowInfoSorted.product.value == "New Homeowner Postcard"
+                    || rowInfo.product.value == "New Homeowner Postcard"
                     || (rowInfo.product.value == "Logo Recreation" && isNMGroupToo == true))) { //update group letter to New Mover 
                 //variation if print date is changed
 
@@ -3453,7 +3453,7 @@ async function onTableChanged(eventArgs) {
                 && (rowInfo.product.value == "New Mover"
                     || rowInfo.product.value == "Plastic New Mover"
                     || rowInfo.product.value == "Birthday Postcard"
-                    || rowInfoSorted.product.value == "New Homeowner Postcard"
+                    || rowInfo.product.value == "New Homeowner Postcard"
                     || (rowInfo.product.value == "Logo Recreation" && isNMGroupToo == true))) { //update print date to New Mover 
                 //variation if group letter is changed
 
