@@ -3399,7 +3399,10 @@ async function onTableChanged(eventArgs) {
 
                 //console.log(hyperlink.hyperlink);
 
-                if (hyperlink.hyperlink || formula.startsWith("=HYPERLINK")) {
+                //* For some reason formula.startsWith stopped working at some point and started breaking some sheets
+                //* Took it out for now but maybe will need to revisit later
+                //if (hyperlink.hyperlink || formula.startsWith("=HYPERLINK")) {
+                if (hyperlink.hyperlink) {
                     leCell.clear(Excel.ClearApplyTo.hyperlinks);
                     // leCell.format.font.underline = false;
                     // leCell.format.font.color = "black";
@@ -3427,7 +3430,11 @@ async function onTableChanged(eventArgs) {
 
                 //console.log(hyperlink.hyperlink);
 
-                if (hyperlink.hyperlink || formula.startsWith("=HYPERLINK")) {
+                //* For some reason formula.startsWith stopped working at some point and started breaking some sheets
+                //* Took it out for now but maybe will need to revisit later
+                //if (hyperlink.hyperlink || formula.startsWith("=HYPERLINK")) {
+                if (hyperlink.hyperlink) {
+
                     leCell.clear(Excel.ClearApplyTo.hyperlinks);
                     // leCell.format.font.underline = false;
                     // leCell.format.font.color = "black";
