@@ -3012,13 +3012,6 @@ async function onTableChanged(eventArgs) {
         var joeRange = joeTable.getDataBodyRange().load("values");
         var joeHeader = joeTable.getHeaderRowRange().load("values");
 
-        var michaelTable = context.workbook.tables.getItem("MichaelProjects").load("worksheet");
-        var michaelTableName = context.workbook.tables.getItem("MichaelProjects").load("name");
-        var michaelTableRows = michaelTable.rows;
-        michaelTableRows.load("items");
-        var michaelRange = michaelTable.getDataBodyRange().load("values");
-        var michaelHeader = michaelTable.getHeaderRowRange().load("values");
-
         var sarahTable = context.workbook.tables.getItem("SarahProjects").load("worksheet");
         var sarahTableName = context.workbook.tables.getItem("SarahProjects").load("name");
         var sarahTableRows = sarahTable.rows;
@@ -4053,12 +4046,6 @@ async function onTableChanged(eventArgs) {
                 destinationRows = joeTableRows.items;
                 destinationTableRange = joeRange;
                 destinationHeader = joeHeader;
-            } else if (rowInfo.artist.value == "Michael") {
-                destinationTable = michaelTable;
-                destinationTableName = michaelTableName.name;
-                destinationRows = michaelTableRows.items;
-                destinationTableRange = michaelRange;
-                destinationHeader = michaelHeader;
             } else if (rowInfo.artist.value == "Sarah") {
                 destinationTable = sarahTable;
                 destinationTableName = sarahTableName.name;
@@ -4487,7 +4474,6 @@ async function onTableChanged(eventArgs) {
                         var unassignedRange = unassignedTable.getDataBodyRange().load("values");
                         var peterRange = peterTable.getDataBodyRange().load("values");
                         var joeRange = joeTable.getDataBodyRange().load("values");
-                        var michaelRange = michaelTable.getDataBodyRange().load("values");
                         var sarahRange = sarahTable.getDataBodyRange().load("values");
                         var aliRange = aliTable.getDataBodyRange().load("values");
                         var hannahRange = hannahTable.getDataBodyRange().load("values");
@@ -4522,8 +4508,6 @@ async function onTableChanged(eventArgs) {
                             var destinationStation = peterRange;
                         } else if (rowInfo.artist.value == "Joe") {
                             var destinationStation = joeRange;
-                        } else if (rowInfo.artist.value == "Michael") {
-                            var destinationStation = michaelRange;
                         } else if (rowInfo.artist.value == "Sarah") {
                             var destinationStation = sarahRange;
                         } else if (rowInfo.artist.value == "Ali") {
@@ -4708,7 +4692,6 @@ async function onTableChanged(eventArgs) {
                         var unassignedRange = unassignedTable.getDataBodyRange().load("values");
                         var peterRange = peterTable.getDataBodyRange().load("values");
                         var joeRange = joeTable.getDataBodyRange().load("values");
-                        var michaelRange = michaelTable.getDataBodyRange().load("values");
                         var sarahRange = sarahTable.getDataBodyRange().load("values");
                         var aliRange = aliTable.getDataBodyRange().load("values");
                         var hannahRange = hannahTable.getDataBodyRange().load("values");
@@ -4743,8 +4726,6 @@ async function onTableChanged(eventArgs) {
                             var destinationStation = peterRange;
                         } else if (rowInfo.artist.value == "Joe") {
                             var destinationStation = joeRange;
-                        } else if (rowInfo.artist.value == "Michael") {
-                            var destinationStation = michaelRange;
                         } else if (rowInfo.artist.value == "Sarah") {
                             var destinationStation = sarahRange;
                         } else if (rowInfo.artist.value == "Ali") {
