@@ -3061,12 +3061,12 @@ async function onTableChanged(eventArgs) {
         var joshCRange = joshCTable.getDataBodyRange().load("values");
         var joshCHeader = joshCTable.getHeaderRowRange().load("values");
 
-        var meganTable = context.workbook.tables.getItem("MeganProjects").load("worksheet");
-        var meganTableName = context.workbook.tables.getItem("MeganProjects").load("name");
-        var meganTableRows = meganTable.rows;
-        meganTableRows.load("items");
-        var meganRange = meganTable.getDataBodyRange().load("values");
-        var meganHeader = meganTable.getHeaderRowRange().load("values");
+        var graceTable = context.workbook.tables.getItem("GraceProjects").load("worksheet");
+        var graceTableName = context.workbook.tables.getItem("GraceProjects").load("name");
+        var graceTableRows = graceTable.rows;
+        graceTableRows.load("items");
+        var graceRange = graceTable.getDataBodyRange().load("values");
+        var graceHeader = graceTable.getHeaderRowRange().load("values");
 
         var julieTable = context.workbook.tables.getItem("JulieProjects").load("worksheet");
         var julieTableName = context.workbook.tables.getItem("JulieProjects").load("name");
@@ -4088,12 +4088,12 @@ async function onTableChanged(eventArgs) {
                 destinationRows = joshCTableRows.items;
                 destinationTableRange = joshCRange;
                 destinationHeader = joshCHeader;
-            } else if (rowInfo.artist.value == "Megan") {
-                destinationTable = meganTable;
-                destinationTableName = meganTableName.name;
-                destinationRows = meganTableRows.items;
-                destinationTableRange = meganRange;
-                destinationHeader = meganHeader;
+            } else if (rowInfo.artist.value == "Grace") {
+                destinationTable = graceTable;
+                destinationTableName = graceTableName.name;
+                destinationRows = graceTableRows.items;
+                destinationTableRange = graceRange;
+                destinationHeader = graceHeader;
             } else if (rowInfo.artist.value == "Julie") {
                 destinationTable = julieTable;
                 destinationTableName = julieTableName.name;
@@ -4481,7 +4481,7 @@ async function onTableChanged(eventArgs) {
                         var breRange = breTable.getDataBodyRange().load("values");
                         var jessicaRange = jessicaTable.getDataBodyRange().load("values");
                         var joshCRange = joshCTable.getDataBodyRange().load("values");
-                        var meganRange = meganTable.getDataBodyRange().load("values");
+                        var graceRange = graceTable.getDataBodyRange().load("values");
                         var julieRange = julieTable.getDataBodyRange().load("values");
                         var emilyRange = emilyTable.getDataBodyRange().load("values");
                         var alainaRange = alainaTable.getDataBodyRange().load("values");
@@ -4522,8 +4522,8 @@ async function onTableChanged(eventArgs) {
                             var destinationStation = jessicaRange;
                         } else if (rowInfo.artist.value == "Josh C.") {
                             var destinationStation = joshCRange;
-                        } else if (rowInfo.artist.value == "Megan") {
-                            var destinationStation = meganRange;
+                        } else if (rowInfo.artist.value == "Grace") {
+                            var destinationStation = graceRange;
                         } else if (rowInfo.artist.value == "Julie") {
                             var destinationStation = julieRange;
                         } else if (rowInfo.artist.value == "Emily") {
@@ -4699,7 +4699,7 @@ async function onTableChanged(eventArgs) {
                         var breRange = breTable.getDataBodyRange().load("values");
                         var jessicaRange = jessicaTable.getDataBodyRange().load("values");
                         var joshCRange = joshCTable.getDataBodyRange().load("values");
-                        var meganRange = meganTable.getDataBodyRange().load("values");
+                        var graceRange = graceTable.getDataBodyRange().load("values");
                         var julieRange = julieTable.getDataBodyRange().load("values");
                         var emilyRange = emilyTable.getDataBodyRange().load("values");
                         var alainaRange = alainaTable.getDataBodyRange().load("values");
@@ -4740,8 +4740,8 @@ async function onTableChanged(eventArgs) {
                             var destinationStation = jessicaRange;
                         } else if (rowInfo.artist.value == "Josh C.") {
                             var destinationStation = joshCRange;
-                        } else if (rowInfo.artist.value == "Megan") {
-                            var destinationStation = meganRange;
+                        } else if (rowInfo.artist.value == "Grace") {
+                            var destinationStation = graceRange;
                         } else if (rowInfo.artist.value == "Julie") {
                             var destinationStation = julieRange;
                         } else if (rowInfo.artist.value == "Emily") {
