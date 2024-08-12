@@ -2899,7 +2899,7 @@ async function onTableChanged(eventArgs) {
         //#region HANDLE ILLEGAL ROW INSERT --------------------------------------------------------------------------------------------------
 
         if (eventArgs.changeType == "RowInserted") {
-            handleIllegalInsert(eventArgs);
+            //handleIllegalInsert(eventArgs);
             dennisHere = true;
             showDennis();
             return;
